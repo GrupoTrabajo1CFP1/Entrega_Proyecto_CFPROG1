@@ -12,7 +12,6 @@ class Salesperson {
     private String name;
     private String region;
     private double sales;
-    private String name1;
     // Constructor
     public Salesperson(String name, String region, double sales) {
         this.name = name;
