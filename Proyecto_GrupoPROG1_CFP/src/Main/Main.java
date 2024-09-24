@@ -1,16 +1,10 @@
 package Main;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 import java.text.NumberFormat;
 
+// Main class that handles the core functionalities of the program
 public class Main {
 
     public static void main(String[] args) {
@@ -31,28 +25,34 @@ public class Main {
         }
     }
 
+    /**
+     * Reads the salesmen data from a file.
+     * 
+     * @param filename the file path to read the salesmen data from
+     * @return a list of Salesman objects
+     */
     public static List<Salesman> readSalesmenFile(String filename) {
         List<Salesman> salesmen = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
-            boolean firstLine = true; // Flag para omitir la primera línea (encabezado)
+            boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
                 if (firstLine) {
-                    firstLine = false; // Omitir el encabezado
-                    continue;
+                    firstLine = false;
+                    continue; // Skip header
                 }
 
                 String[] parts = line.split(";");
                 if (parts.length < 4) {
                     System.err.println("Invalid line format: " + line);
-                    continue; // Omitir líneas inválidas
+                    continue; // Skip invalid lines
                 }
 
                 try {
-                    long id = Long.parseLong(parts[1].trim()); // ID del vendedor
-                    String name = parts[2].trim();              // Nombre
-                    String lastName = parts[3].trim();          // Apellido
+                    long id = Long.parseLong(parts[1].trim());
+                    String name = parts[2].trim();
+                    String lastName = parts[3].trim();
                     salesmen.add(new Salesman(id, name, lastName));
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid number format in line: " + line);
@@ -64,22 +64,28 @@ public class Main {
         return salesmen;
     }
 
+    /**
+     * Reads the product data from a file.
+     * 
+     * @param filename the file path to read the products data from
+     * @return a list of Product objects
+     */
     public static List<Product> readProductsFile(String filename) {
         List<Product> products = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
-            boolean firstLine = true; // Flag para omitir la primera línea (encabezado)
+            boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
                 if (firstLine) {
-                    firstLine = false; // Omitir el encabezado
-                    continue;
+                    firstLine = false;
+                    continue; // Skip header
                 }
 
                 String[] parts = line.split(";");
                 if (parts.length < 3) {
                     System.err.println("Invalid line format: " + line);
-                    continue; // Omitir líneas inválidas
+                    continue; // Skip invalid lines
                 }
 
                 try {
@@ -97,22 +103,28 @@ public class Main {
         return products;
     }
 
+    /**
+     * Reads the sales data from a file.
+     * 
+     * @param filename the file path to read the sales data from
+     * @return a list of Sale objects
+     */
     public static List<Sale> readSalesFile(String filename) {
         List<Sale> sales = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
-            boolean firstLine = true; // Flag para omitir la primera línea (encabezado)
+            boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
                 if (firstLine) {
-                    firstLine = false; // Omitir el encabezado
-                    continue;
+                    firstLine = false;
+                    continue; // Skip header
                 }
 
                 String[] parts = line.split(";");
                 if (parts.length < 3) {
                     System.err.println("Invalid line format: " + line);
-                    continue; // Omitir líneas inválidas
+                    continue; // Skip invalid lines
                 }
 
                 try {
@@ -120,10 +132,10 @@ public class Main {
                     long salesmanId = Long.parseLong(parts[1].trim());
                     int quantity = Integer.parseInt(parts[2].trim());
 
-                    // Validar que salesmanId no sea 0
+                    // Skip sales with invalid SalesmanId
                     if (salesmanId == 0) {
                         System.err.println("Invalid SalesmanId in line: " + line);
-                        continue; // Omitir ventas con salesmanId inválido
+                        continue;
                     }
 
                     sales.add(new Sale(productId, salesmanId, quantity));
@@ -137,8 +149,14 @@ public class Main {
         return sales;
     }
 
-
-
+    /**
+     * Generates the sales reports.
+     * 
+     * @param salesmen a list of Salesman objects
+     * @param products a list of Product objects
+     * @param sales a list of Sale objects
+     * @return true if reports were generated successfully, false otherwise
+     */
     public static boolean generateReports(List<Salesman> salesmen, List<Product> products, List<Sale> sales) {
         try {
             generateSalesReport(salesmen, products, sales);
@@ -150,35 +168,40 @@ public class Main {
         }
     }
 
-
- // En tu método generateSalesReport
-    public static void generateSalesReport(List<Salesman> salesmen, List<Product> products, List<Sale> sales) throws IOException {
+    /**
+     * Generates a sales report and writes it to a CSV file.
+     * 
+     * @param salesmen a list of Salesman objects
+     * @param products a list of Product objects
+     * @param sales a list of Sale objects
+     * @throws IOException if an error occurs during file writing
+     */
+    @SuppressWarnings("deprecation")
+	public static void generateSalesReport(List<Salesman> salesmen, List<Product> products, List<Sale> sales)
+            throws IOException {
         Map<Long, Double> salesBySalesman = new HashMap<>();
 
         for (Sale sale : sales) {
             Product product = findProductById(products, sale.getProductId());
             if (product == null) {
                 System.err.println("Product with ID " + sale.getProductId() + " not found. Skipping sale.");
-                continue; // Omite esta venta si el producto no se encuentra
+                continue;
             }
             double totalSaleAmount = product.getPrice() * sale.getQuantity();
             salesBySalesman.put(sale.getSalesmanId(),
-                salesBySalesman.getOrDefault(sale.getSalesmanId(), 0.0) + totalSaleAmount);
+                    salesBySalesman.getOrDefault(sale.getSalesmanId(), 0.0) + totalSaleAmount);
         }
 
-        // Escribir el informe en un archivo
         try (FileWriter writer = new FileWriter("resources/sales_report.csv")) {
-            // Escribir la cabecera del informe
             writer.write("SalesmanId;Name;LastName;TotalSales\n");
-
-            @SuppressWarnings("deprecation")
-			NumberFormat numberFormat = NumberFormat.getInstance(new Locale("es", "ES")); // Formato español
+            NumberFormat numberFormat = NumberFormat.getInstance(new Locale("es", "ES"));
 
             for (Map.Entry<Long, Double> entry : salesBySalesman.entrySet()) {
                 Salesman salesman = findSalesmanById(salesmen, entry.getKey());
                 if (salesman != null) {
                     String totalSalesFormatted = numberFormat.format(entry.getValue());
-                    writer.write(salesman.getId() + ";" + salesman.getName() + ";" + salesman.getLastName() + ";" + totalSalesFormatted + "\n");
+                    writer.write(salesman.getId() + ";" + salesman.getName() + ";" + salesman.getLastName() + ";"
+                            + totalSalesFormatted + "\n");
                 } else {
                     System.err.println("Salesman with ID " + entry.getKey() + " not found. Skipping report entry.");
                 }
@@ -187,39 +210,40 @@ public class Main {
         }
     }
 
+    /**
+     * Generates a product sales report and writes it to a CSV file.
+     * 
+     * @param products a list of Product objects
+     * @param sales a list of Sale objects
+     * @throws IOException if an error occurs during file writing
+     */
+    public static void generateProductSalesReport(List<Product> products, List<Sale> sales) throws IOException {
+        Map<Integer, Integer> salesByProduct = new HashMap<>();
 
+        for (Sale sale : sales) {
+            salesByProduct.put(sale.getProductId(),
+                    salesByProduct.getOrDefault(sale.getProductId(), 0) + sale.getQuantity());
+        }
 
-    
+        try (FileWriter writer = new FileWriter("resources/product_sales_report.csv")) {
+            writer.write("Product;TotalQuantity\n");
 
- public static void generateProductSalesReport(List<Product> products, List<Sale> sales) throws IOException {
-	    Map<Integer, Integer> salesByProduct = new HashMap<>();
-	    // Calcular las ventas totales por producto
-	    for (Sale sale : sales) {
-	        salesByProduct.put(sale.getProductId(),
-	            salesByProduct.getOrDefault(sale.getProductId(), 0) + sale.getQuantity());
-	    }
-
-	    // Escribir informe en un archivo
-	    try (FileWriter writer = new FileWriter("resources/product_sales_report.csv")) {
-	        writer.write("Product;TotalQuantity\n"); // Encabezado
-
-	        salesByProduct.entrySet().stream()
-	            .sorted(Map.Entry.<Integer, Integer>comparingByValue().reversed())
-	            .forEach(entry -> {
-	                Product product = findProductById(products, entry.getKey());
-	                if (product == null) {
-	                    System.err.println("Product with ID " + entry.getKey() + " not found. Skipping report entry.");
-	                    return; // Salir si no se encuentra el producto
-	                }
-	                try {
-	                    writer.write(product.getName() + ";" + entry.getValue() + "\n");
-	                } catch (IOException e) {
-	                    e.printStackTrace();
-	                }
-	            });
-	        System.out.println("Product sales report generated successfully.");
-	    }
-	}
+            salesByProduct.entrySet().stream().sorted(Map.Entry.<Integer, Integer>comparingByValue().reversed())
+                    .forEach(entry -> {
+                        Product product = findProductById(products, entry.getKey());
+                        if (product == null) {
+                            System.err.println("Product with ID " + entry.getKey() + " not found. Skipping report entry.");
+                            return;
+                        }
+                        try {
+                            writer.write(product.getName() + ";" + entry.getValue() + "\n");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+            System.out.println("Product sales report generated successfully.");
+        }
+    }
 
     public static Product findProductById(List<Product> products, int productId) {
         for (Product product : products) {
@@ -240,7 +264,7 @@ public class Main {
     }
 }
 
-// Salesman class
+// Salesman class representing the sellers
 class Salesman {
     private long id;
     private String name;
@@ -265,7 +289,7 @@ class Salesman {
     }
 }
 
-// Product class
+// Product class representing the products
 class Product {
     private int id;
     private String name;
@@ -290,7 +314,7 @@ class Product {
     }
 }
 
-// Sale class
+// Sale class representing the sales data
 class Sale {
     private int productId;
     private long salesmanId;
@@ -314,5 +338,3 @@ class Sale {
         return quantity;
     }
 }
-
-

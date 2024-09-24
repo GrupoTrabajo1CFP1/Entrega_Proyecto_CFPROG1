@@ -15,7 +15,13 @@ public class GenerateInfoFiles {
         createSalesMenFile(10, salesmanIds);
     }
 
-    // Método para crear un archivo de ventas
+    /**
+     * Generates a pseudo-random salesmen file.
+     * 
+     * @param randomSalesCount the number of sales entries to generate
+     * @param name the name of the salesman
+     * @param id the ID of the salesman
+     */
     public static void createSalesMenFile(int randomSalesCount, List<Long> salesmanIds) {
         try (FileWriter writer = new FileWriter("resources/sales.txt")) {
             Random rand = new Random();
@@ -41,7 +47,11 @@ public class GenerateInfoFiles {
         }
     }
 
-    // Method to create a file with product information
+    /**
+     * Generates a pseudo-random products file.
+     * 
+     * @param productsCount the number of products to generate
+     */    
     public static void createProductsFile(int productsCount) {
         try {
             FileWriter writer = new FileWriter("resources/products.txt");
@@ -62,7 +72,11 @@ public class GenerateInfoFiles {
         }
     }
 
-    // Method to create a file with salesman information and return their IDs
+    /**
+     * Generates a pseudo-random salesmen info file.
+     * 
+     * @param salesmanCount the number of salesmen to generate
+     */
     public static List<Long> createSalesManInfoFile(int salesmanCount) {
         List<Long> salesmanIds = new ArrayList<>();
         try {
