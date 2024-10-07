@@ -1,21 +1,9 @@
-ProductId;Name;TotalSold
-1;Product 1;46
-2;Product 2;26
-3;Product 3;41
-4;Product 4;18
-5;Product 5;29
-6;Product 6;27
-7;Product 7;26
-8;Product 8;56
-9;Product 9;62
-10;Product 10;42
-11;Product 11;44
-12;Product 12;14
-13;Product 13;9
-14;Product 14;34
-15;Product 15;17
-16;Product 16;22
-17;Product 17;13
-18;Product 18;13
-19;Product 19;16
-20;Product 20;38
+Product;TotalQuantity
+Product4;10
+Product15;9
+Product18;7
+Product6;6
+Product16;5
+Product3;3
+Product19;3
+Product13;3
