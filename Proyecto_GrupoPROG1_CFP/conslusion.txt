@@ -1,0 +1,31 @@
+CONCLUSIÓN
+1 Lo aprendido durante el desarrollo del proyecto:
+Durante el transcurso del proyecto, adquirimos conocimientos fundamentales en el ámbito de la programación. Estos incluyeron:
+
+Conceptos iniciales en lenguajes de programación: Exploramos los conceptos básicos necesarios para comprender la programación, como el vocabulario fundamental y la clasificación de lenguajes de programación.
+Introducción a Java: Profundizamos en el lenguaje de programación Java, comprendiendo su sintaxis, estructuras y características esenciales.
+Tipos de datos y operaciones: Estudiamos los diferentes tipos de datos (enteros, flotantes, cadenas, etc.) y las operaciones que se pueden realizar con ellos.
+
+2 Posibles aplicaciones en su vida profesional de las destrezas y conocimientos adquiridos y practicados durante el desarrollo del proyecto:
+Las habilidades y conocimientos que adquirimos durante este proyecto tienen aplicaciones prácticas en nuestra vida profesional:
+
+Desarrollo de software en Java: Ahora contamos con una base sólida para crear aplicaciones, sistemas empresariales o sitios web utilizando Java, esto claro acompañado de la profundización con otras tecnologías y el mismo lenguaje.
+Optimización de algoritmos recursivos: Adquirimos la capacidad de optimizar algoritmos recursivos, lo cual es valioso para resolver problemas de manera eficiente.
+Trabajo con estructuras de datos: El manejo de arreglos, listas y otros contenedores de datos es esencial en el desarrollo de software robusto.
+3 Las dificultades presentadas durante el desarrollo del proyecto:
+Aunque el proceso de aprendizaje fue enriquecedor, también nos enfrentamos a desafíos como:
+
+Errores de sintaxis: En ocasiones, pequeños errores en la sintaxis nos causaron problemas difíciles de depurar.
+Comprender estructuras de control: Las estructuras de decisión y repetitivas nos resultaron confusas al principio.
+Manejo de arreglos multidimensionales: Trabajar con arreglos de más de dos dimensiones presentó un nivel de complejidad más alto.
+4 Correcciones implementadas:
+Durante el desarrollo del proyecto, identificamos áreas clave donde se podían implementar mejoras y ya hemos tomado medidas para abordarlas. A continuación, se presentan las correcciones realizadas:
+
+Documentación del Código: A pesar de que el código contaba con comentarios, hemos enriquecido la documentación en las cabeceras de clases, métodos y variables importantes. Esto incluye la inclusión de JavaDoc, lo que mejora la comprensión y el mantenimiento del código.
+
+Verificación de Datos Inválidos: Hemos mejorado las verificaciones de formato de datos. Se han implementado validaciones más robustas para detectar información incoherente, garantizando así que no se procesen datos incorrectos o inválidos. También hemos añadido reportes de error que se generan automáticamente en caso de detección de tales datos.
+
+Creación de Múltiples Archivos por Vendedor: Se ha adaptado el código para permitir la lectura y procesamiento de múltiples archivos de ventas por cada vendedor, lo que amplía la funcionalidad del programa y facilita la gestión de datos.
+
+Procesamiento de Archivos Serializados: Por último, hemos incorporado la capacidad de manejar archivos en formato serializado, utilizando ObjectOutputStream y ObjectInputStream, lo que mejora la eficiencia en la gestión de datos.
+
